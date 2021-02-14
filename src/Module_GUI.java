@@ -3,8 +3,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class SAP_GUI  {
-    // simple visualisation of the different modules
+public class Module_GUI extends JPanel {
+    // simple interface for the different modules
 
     private SAP emulator;  // link the GUI back to the emulator
     private JFrame frame;
@@ -14,8 +14,12 @@ public class SAP_GUI  {
     private final int BUTTON_WIDTH = 100;
     private final int BUTTON_HEIGHT = 30;
     private final int COLUMN2 = 300;
-/*
-    public SAP_GUI(SAP emulator) {
+
+    private JButton step;
+    private JLabel pcLabel; // program counter
+    private JLabel[] ramLabel; // memory contents
+
+    public Module_GUI(SAP emulator) {
         this.emulator = emulator;
 
         frame = new JFrame();
@@ -25,7 +29,7 @@ public class SAP_GUI  {
         // create all GUI widgets
         step = new JButton("single step");
         step.setBounds(MARGIN, MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT);
-        step.addActionListener(this);
+
         frame.add(step);
 
         pcLabel = new JLabel();
@@ -34,9 +38,9 @@ public class SAP_GUI  {
 
         // 16 labels for the memory contents
         ramLabel = new JLabel[16];
-        for (int i=0; i<16; i++) {
+        for (int i = 0; i < 16; i++) {
             ramLabel[i] = new JLabel();
-            ramLabel[i].setBounds(MARGIN, MARGIN + BUTTON_HEIGHT/2*(i+2), BUTTON_WIDTH, BUTTON_HEIGHT);
+            ramLabel[i].setBounds(MARGIN, MARGIN + BUTTON_HEIGHT / 2 * (i + 2), BUTTON_WIDTH, BUTTON_HEIGHT);
             frame.add(ramLabel[i]);
         }
 
@@ -49,22 +53,14 @@ public class SAP_GUI  {
 
     public void update() {
         // update display to reflect the state of the emulator
-        pcLabel.setText("program counter: " + Integer.toString(emulator.getPC()));
+        pcLabel.setText("program counter: " );
 
         // ram
-        for (int i=0; i<16; i++) {
+        for (int i = 0; i < 16; i++) {
             ramLabel[i].setText(Integer.toString(i));
         }
 
         frame.repaint();
     }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getActionCommand().equals("single step")) {
-            emulator.tick();
-        }
-    }
-
- */
 }
+

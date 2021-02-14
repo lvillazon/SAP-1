@@ -1,3 +1,5 @@
+import javax.swing.*;
+import java.awt.*;
 
 public class SAP {
     // emulates the Simple As Possible (SAP-1) computer
@@ -16,18 +18,31 @@ public class SAP {
     Bus - 8-bits wide
     Control flags
      */
+    private final int WIDTH = 800;
+    private final int HEIGHT = 400;
 
-    private SAP_GUI gui;  // front end
+    private JFrame gui;  // front end
+    private ClockModule clock;
+
     private int pc;  // program counter
+
 
     public SAP() {
         // initialise registers and RAM to known state
 
         // create the GUI
-        gui = new SAP_GUI(this);
-        pc = 0;
+        gui = new JFrame();
+        gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        gui.setSize(WIDTH, HEIGHT);
+        gui.setLayout(new GridLayout(0,2, 5, 5));
+        clock = new ClockModule(this);
+        ClockModule clock2 = new ClockModule(this);
+        ClockModule clock3 = new ClockModule(this);
+        gui.setVisible(true);
+    }
 
-        gui.update(); // make sure the display mirrors the emulator
+    public JFrame getGUI(){
+        return gui;
     }
 
     public void tick() {
@@ -35,17 +50,6 @@ public class SAP {
         //Scanner pause = new Scanner(System.in);
         //pause.nextLine();
         System.out.println("tick");
-        incrementPC();
-
-        gui.update(); // make sure the display mirrors the emulator
     }
 
-    private void incrementPC() {
-        // PC counts from 0 to 15 and then wraps
-        pc = (pc + 1) % 16;
-    }
-
-    public int getPC() {
-        return pc;
-    }
 }
