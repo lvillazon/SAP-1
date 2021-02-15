@@ -1,70 +1,50 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class SAP_GUI  {
-    // simple visualisation of the different modules
+public class SAP_GUI {
+    // provides the front end for the emulator
+    private final int WIDTH = 600;
+    private final int HEIGHT = 600;
 
-    private SAP emulator;  // link the GUI back to the emulator
+    public enum Position {LEFT, CENTRE, RIGHT}
     private JFrame frame;
-    private final int WIDTH = 500;
-    private final int HEIGHT = 400;
-    private final int MARGIN = 20;
-    private final int BUTTON_WIDTH = 100;
-    private final int BUTTON_HEIGHT = 30;
-    private final int COLUMN2 = 300;
-/*
-    public SAP_GUI(SAP emulator) {
-        this.emulator = emulator;
+    private JPanel lefthandSide;
+    private JPanel righthandSide;
+    private JPanel centre;
 
+    public SAP_GUI() {
+        // create the container for all the computer modules
+        // each module is repsonsible for its own UI
         frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(WIDTH, HEIGHT);
-        frame.setLayout(null);
-
-        // create all GUI widgets
-        step = new JButton("single step");
-        step.setBounds(MARGIN, MARGIN, BUTTON_WIDTH, BUTTON_HEIGHT);
-        step.addActionListener(this);
-        frame.add(step);
-
-        pcLabel = new JLabel();
-        pcLabel.setBounds(COLUMN2, MARGIN, 150, BUTTON_HEIGHT);
-        frame.add(pcLabel);
-
-        // 16 labels for the memory contents
-        ramLabel = new JLabel[16];
-        for (int i=0; i<16; i++) {
-            ramLabel[i] = new JLabel();
-            ramLabel[i].setBounds(MARGIN, MARGIN + BUTTON_HEIGHT/2*(i+2), BUTTON_WIDTH, BUTTON_HEIGHT);
-            frame.add(ramLabel[i]);
-        }
-
-        // close program when window closes
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-        // display the frame
+        frame.setLayout(new GridLayout(0,3, 5, 5));
+        lefthandSide = new JPanel();
+        righthandSide = new JPanel();
+        centre = new JPanel();
+        lefthandSide.setLayout(new GridLayout(0,1));
+        righthandSide.setLayout(new GridLayout(0,1));
+        centre.setLayout(new GridLayout(0,1));
+        frame.add(lefthandSide);
+        frame.add(centre);
+        frame.add(righthandSide);
         frame.setVisible(true);
     }
 
-    public void update() {
-        // update display to reflect the state of the emulator
-        pcLabel.setText("program counter: " + Integer.toString(emulator.getPC()));
-
-        // ram
-        for (int i=0; i<16; i++) {
-            ramLabel[i].setText(Integer.toString(i));
+    public void add(Position p, Module m) {
+        // place the JPanel containing the module UI
+        // into the correct column of the frame
+        switch (p) {
+            case LEFT:
+                lefthandSide.add(m.getUI());
+                break;
+            case CENTRE:
+                centre.add(m.getUI());
+                break;
+            case RIGHT:
+                righthandSide.add(m.getUI());
+                break;
         }
-
-        frame.repaint();
+        frame.revalidate();
     }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getActionCommand().equals("single step")) {
-            emulator.tick();
-        }
-    }
-
- */
 }

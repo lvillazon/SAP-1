@@ -9,16 +9,23 @@ public class Module {
     Each one includes a JPanel to provide the UI
      */
 
-    protected SAP computer;
-    protected JPanel panel;  // front end
+    protected SAP computer;  // link to the emulator to access other modules
+    private JPanel panel;  // front end
 
-    public Module(SAP computer) {
+    public Module(String name) {
         this.computer = computer;
         panel = new JPanel();
         Border border = BorderFactory.createLineBorder(Color.black);
-        TitledBorder title = BorderFactory.createTitledBorder(border, "title");
+        TitledBorder title = BorderFactory.createTitledBorder(border, name);
         title.setTitleJustification(TitledBorder.CENTER);
         panel.setBorder(title);
-        computer.getGUI().add(panel);  // add the module UI to the frame for the SAP
+    }
+
+    public JPanel getUI() {
+        return panel;
+    }
+
+    public void tick() {
+        panel.repaint();
     }
 }
