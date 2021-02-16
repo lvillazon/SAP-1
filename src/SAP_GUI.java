@@ -23,7 +23,7 @@ public class SAP_GUI {
         righthandSide = new JPanel();
         centre = new JPanel();
         lefthandSide.setLayout(new GridLayout(0,1));
-        righthandSide.setLayout(new GridLayout(0,1));
+        righthandSide.setLayout(new BoxLayout(righthandSide,BoxLayout.PAGE_AXIS));
         centre.setLayout(new GridLayout(0,1));
         frame.add(lefthandSide);
         frame.add(centre);

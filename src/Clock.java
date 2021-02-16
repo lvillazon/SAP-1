@@ -26,7 +26,7 @@ public class Clock extends Module implements ActionListener {
     }
 
     public void tick() {
-        // set a clock pulse to all connected modules
+        // send a clock pulse to all connected modules
         for(Module m: connectedModules) {
             m.tick();
         }
@@ -38,6 +38,5 @@ public class Clock extends Module implements ActionListener {
             tick();
         }
     }
-
 
 }

@@ -3,7 +3,6 @@ import java.awt.*;
 
 public class Bus extends Module {
     private JLabel stateLabel;  // displays bus value
-    private byte state; // the actual bus value
 
     public Bus() {
         super("bus");
@@ -23,5 +22,7 @@ public class Bus extends Module {
         state = value;
         stateLabel.setText(Byte.toString(value));
         getUI().repaint();
+        display();
     }
+
 }

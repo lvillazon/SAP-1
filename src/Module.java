@@ -9,11 +9,13 @@ public class Module {
     Each one includes a JPanel to provide the UI
      */
 
-    protected SAP computer;  // link to the emulator to access other modules
     private JPanel panel;  // front end
+    private String name;
+    protected byte state;
 
     public Module(String name) {
-        this.computer = computer;
+        this.name = name;
+        state = 0;
         panel = new JPanel();
         Border border = BorderFactory.createLineBorder(Color.black);
         TitledBorder title = BorderFactory.createTitledBorder(border, name);
@@ -26,6 +28,13 @@ public class Module {
     }
 
     public void tick() {
+        // default action for a module is simply to update its output (both GUI and console)
         panel.repaint();
+        display();
+    }
+
+    public void display() {
+        // console output for the module
+        System.out.println(name + ": " + state);
     }
 }

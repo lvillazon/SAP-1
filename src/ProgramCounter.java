@@ -2,12 +2,13 @@ import javax.swing.*;
 
 public class ProgramCounter extends Module {
     private JLabel stateLabel;  // displays PC value
-    private byte state; // the actual PC value
     private Bus bus;
+    private ControlUnit flags;
 
-    public ProgramCounter(Bus bus) {
+    public ProgramCounter(Bus bus, ControlUnit flags) {
         super("PC");
         this.bus = bus;
+        this.flags = flags;
         state = 0;
         stateLabel = new JLabel(Byte.toString(state));
         getUI().add(stateLabel);
@@ -21,10 +22,15 @@ public class ProgramCounter extends Module {
 
     @Override
     public void tick() {
-        // TODO only increment if PC enable flag is set
-        increment();
-        // TODO only output if PC OUT flag is set
-        bus.write(state);
+        // only increment if PC enable flag is set
+        if (flags.get(ControlUnit.Flag.PC_EN)) {
+            increment();
+        }
         super.tick();
+        // only output to the bus if PC OUT flag is set
+        if (flags.get(ControlUnit.Flag.PC_OUT)) {
+            bus.write(state);
+        }
     }
+
 }

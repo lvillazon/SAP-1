@@ -20,25 +20,29 @@ public class SAP {
 
     private SAP_GUI gui;  // front end
     private Clock clock;
-
-    private int pc;  // program counter
+    private Bus bus;
+    private ProgramCounter pc;
+    private ControlUnit cu;
 
 
     public SAP() {
         // initialise registers and RAM to known state
 
-        // create the GUI
-        gui = new SAP_GUI();
-
         // initialise all the modules
         clock = new Clock();
-        Bus bus = new Bus();
-        ProgramCounter pc = new ProgramCounter(bus);
-        ControlUnit cu = new ControlUnit();
+        bus = new Bus();
+        cu = new ControlUnit();
+        pc = new ProgramCounter(bus, cu);
 
         // connect up the required modules to the clock signal
         clock.connect(pc);
 
+        createGUI();
+    }
+
+    private void createGUI() {
+        // GUI initialisation kept here, to make it easy to toggle on/off
+        gui = new SAP_GUI();
         // place each module in the correct position on the UI
         gui.add(SAP_GUI.Position.LEFT, clock);
         gui.add(SAP_GUI.Position.RIGHT, pc);
@@ -55,7 +59,11 @@ public class SAP {
         gui.add(SAP_GUI.Position.RIGHT, new Module("placeholder output"));
 
         gui.add(SAP_GUI.Position.RIGHT, cu);
+    }
 
+    public void run() {
+        // execute the current program
+        clock.tick();
     }
 
 }
