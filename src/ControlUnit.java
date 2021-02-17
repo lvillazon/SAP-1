@@ -24,8 +24,8 @@ public class ControlUnit extends Module implements ItemListener {
         PC_OUT,
         JUMP
     }
-    private ArrayList<Boolean> flags;
-    private ArrayList<JCheckBox> flagBoxes;
+    private static ArrayList<Boolean> flags;
+    private static ArrayList<JCheckBox> flagBoxes;
 
     public ControlUnit() {
         super("control flags");
@@ -42,11 +42,11 @@ public class ControlUnit extends Module implements ItemListener {
         }
     }
 
-    public boolean get(Flag f) {
+    public static boolean get(Flag f) {
         return flags.get(f.ordinal());
     }
 
-    public void set(Flag f, boolean state) {
+    public static void set(Flag f, boolean state) {
         flags.set(f.ordinal(), state);
         flagBoxes.get(f.ordinal()).setSelected(state);
     }

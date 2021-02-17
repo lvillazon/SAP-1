@@ -3,19 +3,18 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 
-public class Module {
+public abstract class Module {
     /*
     Base class for all hardware modules
     Each one includes a JPanel to provide the UI
      */
 
     private JPanel panel;  // front end
-    private String name;
-    protected byte state;
+    protected String name;
+//    private static ControlUnit flags;
 
     public Module(String name) {
         this.name = name;
-        state = 0;
         panel = new JPanel();
         Border border = BorderFactory.createLineBorder(Color.black);
         TitledBorder title = BorderFactory.createTitledBorder(border, name);
@@ -33,8 +32,17 @@ public class Module {
         display();
     }
 
-    public void display() {
-        // console output for the module
-        System.out.println(name + ": " + state);
+    protected byte busRead() {
+        return Bus.read();
     }
+
+    protected void busWrite(byte value) {
+        Bus.write(value);
+    }
+
+    protected boolean isSet(ControlUnit.Flag f) {
+        return ControlUnit.get(f);
+    }
+
+    public abstract void display();
 }

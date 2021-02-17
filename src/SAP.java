@@ -1,3 +1,6 @@
+import javax.swing.*;
+import java.awt.*;
+
 public class SAP {
     // emulates the Simple As Possible (SAP-1) computer
     // see https://wisdomstack.blogspot.com/2015/09/overview-of-sap-simple-as-possible-1.html
@@ -18,24 +21,37 @@ public class SAP {
     private final int WIDTH = 600;
     private final int HEIGHT = 600;
 
+    // the bus is implemented as a static value in the Module class
+    // but it also needs a GUI representation, defined here
+    private JLabel busLabel;
+
     private SAP_GUI gui;  // front end
+    private static Bus bus;
     private Clock clock;
-    private Bus bus;
     private ProgramCounter pc;
     private ControlUnit cu;
+    private Register aRegister;
+    private Register bRegister;
+    private Register alu;
 
 
     public SAP() {
         // initialise registers and RAM to known state
 
         // initialise all the modules
-        clock = new Clock();
         bus = new Bus();
+        clock = new Clock();
         cu = new ControlUnit();
-        pc = new ProgramCounter(bus, cu);
+        pc = new ProgramCounter();
+        aRegister = new ARegister();
+        bRegister = new BRegister();
+        alu = new ALU(aRegister, bRegister);
 
         // connect up the required modules to the clock signal
         clock.connect(pc);
+        clock.connect(aRegister);
+        clock.connect(bRegister);
+        clock.connect(alu);
 
         createGUI();
     }
@@ -43,22 +59,27 @@ public class SAP {
     private void createGUI() {
         // GUI initialisation kept here, to make it easy to toggle on/off
         gui = new SAP_GUI();
+
         // place each module in the correct position on the UI
-        gui.add(SAP_GUI.Position.LEFT, clock);
-        gui.add(SAP_GUI.Position.RIGHT, pc);
-        gui.add(SAP_GUI.Position.CENTRE, bus);
+        gui.add(SAP_GUI.Position.LEFT, clock.getUI());
+        gui.add(SAP_GUI.Position.RIGHT, pc.getUI());
+        gui.add(SAP_GUI.Position.RIGHT, aRegister.getUI());
+        gui.add(SAP_GUI.Position.RIGHT, alu.getUI());
+        gui.add(SAP_GUI.Position.RIGHT, bRegister.getUI());
+
+        // create the centre panel to represent the bus, common to all modules
+        gui.add(SAP_GUI.Position.CENTRE, bus.getUI());
 
         // placeholder UIs - replace these with actual modules, as they are implemented
-        gui.add(SAP_GUI.Position.LEFT, new Module("placeholder Memory address register"));
+        /*
+        gui.add(SAP_GUI.Position.LEFT, new Module("placeholder Memory address register").getUI());
         gui.add(SAP_GUI.Position.LEFT, new Module("placeholder RAM"));
         gui.add(SAP_GUI.Position.LEFT, new Module("placeholder Instruction register"));
         gui.add(SAP_GUI.Position.LEFT, new Module("placeholder Instruction decoder"));
-        gui.add(SAP_GUI.Position.RIGHT, new Module("placeholder A register"));
-        gui.add(SAP_GUI.Position.RIGHT, new Module("placeholder ALU"));
-        gui.add(SAP_GUI.Position.RIGHT, new Module("placeholder B register"));
-        gui.add(SAP_GUI.Position.RIGHT, new Module("placeholder output"));
 
-        gui.add(SAP_GUI.Position.RIGHT, cu);
+        gui.add(SAP_GUI.Position.RIGHT, new Module("placeholder output"));
+*/
+        gui.add(SAP_GUI.Position.RIGHT, cu.getUI());
     }
 
     public void run() {

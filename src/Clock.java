@@ -32,6 +32,10 @@ public class Clock extends Module implements ActionListener {
         }
     }
 
+    public void display() {
+        System.out.println("clock");
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("single step")) {

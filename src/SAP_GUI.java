@@ -31,18 +31,18 @@ public class SAP_GUI {
         frame.setVisible(true);
     }
 
-    public void add(Position p, Module m) {
+    public void add(Position p, JPanel ui) {
         // place the JPanel containing the module UI
         // into the correct column of the frame
         switch (p) {
             case LEFT:
-                lefthandSide.add(m.getUI());
+                lefthandSide.add(ui);
                 break;
             case CENTRE:
-                centre.add(m.getUI());
+                centre.add(ui);
                 break;
             case RIGHT:
-                righthandSide.add(m.getUI());
+                righthandSide.add(ui);
                 break;
         }
         frame.revalidate();
